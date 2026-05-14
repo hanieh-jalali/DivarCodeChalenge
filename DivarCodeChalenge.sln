@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.Core", "DivarCodeChallenge.Core\DivarCodeChallenge.Core.csproj", "{7D0BC7AE-9DC6-4CFF-B908-3D50295C3FFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.Domain", "DivarCodeChallenge.Core\DivarCodeChallenge.Domain.csproj", "{7D0BC7AE-9DC6-4CFF-B908-3D50295C3FFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.Services", "DivarCodeChallenge.Services\DivarCodeChallenge.Services.csproj", "{9D569E42-3F98-4CC3-A1C3-F834B5693BA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.Application", "DivarCodeChallenge.Services\DivarCodeChallenge.Application.csproj", "{9D569E42-3F98-4CC3-A1C3-F834B5693BA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.Data", "DivarCodeChallenge.Data\DivarCodeChallenge.Data.csproj", "{C3D4677E-FC88-4B60-BB43-3DBEDB4AAEE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.Infrastructure", "DivarCodeChallenge.Data\DivarCodeChallenge.Infrastructure.csproj", "{C3D4677E-FC88-4B60-BB43-3DBEDB4AAEE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.CLI", "DivarCodeChallenge.CLI\DivarCodeChallenge.CLI.csproj", "{C99EA646-3CD8-4C64-A697-886C78701BFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivarCodeChallenge.Presentation", "DivarCodeChallenge.CLI\DivarCodeChallenge.Presentation.csproj", "{C99EA646-3CD8-4C64-A697-886C78701BFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DivarCodeChallenge.Core\DivarCodeChallenge.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

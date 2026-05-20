@@ -1,37 +1,47 @@
-﻿using DivarCodeChallenge.Domain.Wallets;
+﻿using DivarCodeChallenge.Domain.Contracts;
+using DivarCodeChallenge.Domain.Wallets.ValueObjects;
+using System.Text.Json.Serialization;
 
-namespace DivarCodeChallenge.Domain.Contracts;
-
-public sealed class RentContract : Contract
+public class RentContract : Contract
 {
-    public Money MonthlyRent { get; private set; }
+    [JsonPropertyName("startDate")]
+    public DateTime StartDate { get; private set; }
 
-    public Money DepositAmount { get; private set; }
+    [JsonPropertyName("endDate")]
+    public DateTime EndDate { get; private set; }
 
-    private RentContract()
-    {
-    }
-
+    // Constructor for deserialization
+    [JsonConstructor]
     public RentContract(
+        Guid id,
         Guid houseId,
         Guid ownerId,
         Guid customerId,
+        DateTime contractDate,
+        Money amount,
+        string status,
+        string description,
+        DateTime startDate,
+        DateTime endDate)
+        : base(id, houseId, ownerId, customerId,
+               contractDate, amount, status, description)
+    {
+        StartDate = startDate;
+        EndDate = endDate;
+    }
+
+    // Constructor for application usage
+    public RentContract(
+        Guid houseId,
+        Guid ownerId,
+        Guid tenantId,
         DateTime startDate,
         DateTime endDate,
         Money monthlyRent,
-        Money depositAmount,
         string description)
-        : base(
-            houseId,
-            ownerId,
-            customerId,
-            startDate,
-            endDate,
-            monthlyRent,
-            description)
+        : base(houseId, ownerId, tenantId, monthlyRent, description)
     {
-        MonthlyRent = monthlyRent;
-
-        DepositAmount = depositAmount;
+        StartDate = startDate;
+        EndDate = endDate;
     }
 }

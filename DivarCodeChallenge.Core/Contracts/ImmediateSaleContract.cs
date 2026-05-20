@@ -1,10 +1,21 @@
-﻿using DivarCodeChallenge.Domain.Wallets;
+﻿using DivarCodeChallenge.Domain.Contracts;
+using DivarCodeChallenge.Domain.Wallets.ValueObjects;
+using System.Text.Json.Serialization;
 
-namespace DivarCodeChallenge.Domain.Contracts;
-
-public sealed class ImmediateSaleContract : BuyContract
+public class ImmediateSaleContract : Contract
 {
-    private ImmediateSaleContract()
+    [JsonConstructor]
+    public ImmediateSaleContract(
+        Guid id,
+        Guid houseId,
+        Guid ownerId,
+        Guid customerId,
+        DateTime contractDate,
+        Money amount,
+        string status,
+        string description)
+        : base(id, houseId, ownerId, customerId,
+               contractDate, amount, status, description)
     {
     }
 
@@ -12,14 +23,9 @@ public sealed class ImmediateSaleContract : BuyContract
         Guid houseId,
         Guid ownerId,
         Guid customerId,
-        Money housePrice,
+        Money amount,
         string description)
-        : base(
-            houseId,
-            ownerId,
-            customerId,
-            housePrice,
-            description)
+        : base(houseId, ownerId, customerId, amount, description)
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿using DivarCodeChallenge.Domain.Shared;
 
-namespace DivarCodeChallenge.Domain.Wallets;
+namespace DivarCodeChallenge.Domain.Wallets.ValueObjects;
 
 public sealed class Money : ValueObject
 {

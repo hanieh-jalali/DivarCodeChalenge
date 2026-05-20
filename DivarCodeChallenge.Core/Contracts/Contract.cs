@@ -1,88 +1,85 @@
-﻿using DivarCodeChallenge.Domain.Houses;
-using DivarCodeChallenge.Domain.Shared;
-using DivarCodeChallenge.Domain.Wallets;
+﻿using DivarCodeChallenge.Domain.Shared;
+using DivarCodeChallenge.Domain.Wallets.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace DivarCodeChallenge.Domain.Contracts;
 
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$contractType")]
+[JsonDerivedType(typeof(RentContract), "RentContract")]
+[JsonDerivedType(typeof(BuyContract), "BuyContract")]
+[JsonDerivedType(typeof(ImmediateSaleContract), "ImmediateSaleContract")]
+[JsonDerivedType(typeof(SpecialPurchaseContract), "SpecialPurchaseContract")]
 public abstract class Contract : AggregateRoot
 {
+    [JsonPropertyName("id")]
+    public Guid Id { get; protected set; }
+
+    [JsonPropertyName("houseId")]
     public Guid HouseId { get; protected set; }
 
+    [JsonPropertyName("ownerId")]
     public Guid OwnerId { get; protected set; }
 
+    [JsonPropertyName("customerId")]
     public Guid CustomerId { get; protected set; }
 
+    [JsonPropertyName("contractDate")]
     public DateTime ContractDate { get; protected set; }
 
-    public DateTime StartDate { get; protected set; }
-
-    public DateTime EndDate { get; protected set; }
-
+    [JsonPropertyName("amount")]
     public Money Amount { get; protected set; }
 
-    public string Status { get; protected set; }
+    [JsonPropertyName("status")]
+    public string Status { get; protected set; } = default!;
 
-    public string Description { get; protected set; }
+    [JsonPropertyName("description")]
+    public string Description { get; protected set; } = default!;
 
-    protected Contract()
-    {
-    }
+    protected Contract() { }
 
+    [JsonConstructor]
     protected Contract(
-        Guid houseId,
-        Guid ownerId,
-        Guid customerId,
-        DateTime startDate,
-        DateTime endDate,
-        Money amount,
-        string description)
+      Guid id,
+      Guid houseId,
+      Guid ownerId,
+      Guid customerId,
+      DateTime contractDate,
+      Money amount,
+      string status,
+      string description)
     {
-        if (startDate >= endDate)
-            throw new InvalidOperationException(
-                "Start date cannot be greater than end date.");
-
-        Id = Guid.NewGuid();
-
+        Id = id;
         HouseId = houseId;
-
         OwnerId = ownerId;
-
         CustomerId = customerId;
-
-        ContractDate = DateTime.UtcNow;
-
-        StartDate = startDate;
-
-        EndDate = endDate;
-
+        ContractDate = contractDate;
         Amount = amount;
-
+        Status = status;
         Description = description;
-
+    }
+    protected Contract(
+    Guid houseId,
+    Guid ownerId,
+    Guid customerId,
+    Money amount,
+    string description)
+    {
+        Id = Guid.NewGuid();
+        HouseId = houseId;
+        OwnerId = ownerId;
+        CustomerId = customerId;
+        Amount = amount;
+        Description = description;
         Status = ContractStatuses.Active;
-
+        ContractDate = DateTime.UtcNow;
         CreatedDate = DateTime.UtcNow;
     }
-
     public void Cancel()
     {
-        if (Status == ContractStatuses.Cancelled)
-            throw new InvalidOperationException(
-                "Contract already cancelled.");
+        if (Status != ContractStatuses.Active)
+            throw new InvalidOperationException("Only active contracts can be cancelled.");
 
         Status = ContractStatuses.Cancelled;
-
-        ModifiedDate = DateTime.UtcNow;
-    }
-
-    public void Complete()
-    {
-        if (Status == ContractStatuses.Completed)
-            throw new InvalidOperationException(
-                "Contract already completed.");
-
-        Status = ContractStatuses.Completed;
-
         ModifiedDate = DateTime.UtcNow;
     }
 }

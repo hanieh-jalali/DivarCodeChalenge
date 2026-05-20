@@ -4,9 +4,9 @@ namespace DivarCodeChallenge.Domain.Houses.ValueObjects;
 
 public class Area : ValueObject
 {
-    public int SquareMeters { get; }
+    public decimal SquareMeters { get; }
 
-    public Area(int squareMeters)
+    public Area(decimal squareMeters)
     {
         if (squareMeters <= 0)
             throw new ArgumentException("Area must be positive");

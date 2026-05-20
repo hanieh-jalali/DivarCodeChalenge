@@ -2,7 +2,7 @@
 using System.Text;
 using DivarCodeChallenge.Application.Users.Interfaces;
 
-namespace DivarCodeChallenge.Infrastructure.Security;
+namespace DivarCodeChallenge.Infrastructure.User.Security;
 
 public class PasswordHasher : IPasswordHasher
 {

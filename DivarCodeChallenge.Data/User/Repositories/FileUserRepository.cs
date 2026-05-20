@@ -2,7 +2,7 @@
 using DivarCodeChallenge.Domain.Users;
 using DivarCodeChallenge.Domain.Users.ValueObjects;
 
-namespace DivarCodeChallenge.Infrastructure.Repositories;
+namespace DivarCodeChallenge.Infrastructure.User.Repositories;
 
 public sealed class FileUserRepository : IUserRepository
 {
@@ -19,7 +19,7 @@ public sealed class FileUserRepository : IUserRepository
         EnsureFileExists();
     }
 
-    public async Task AddAsync(User user)
+    public async Task AddAsync(Domain.Users.User user)
     {
         var users = await GetAllAsync();
 
@@ -38,14 +38,21 @@ public sealed class FileUserRepository : IUserRepository
             line + Environment.NewLine);
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<Domain.Users.User?> GetByIdAsync(Guid id)
     {
         var users = await GetAllAsync();
 
         return users.FirstOrDefault(x => x.Id == id);
     }
+    
+    public async Task<Domain.Users.User?> GetByRoleAsync(UserRole role)
+    {
+        var users = await GetAllAsync();
 
-    public async Task<User?> GetByUsernameAsync(string username)
+        return users.FirstOrDefault(x => x.Role == role);
+    }
+
+    public async Task<Domain.Users.User?> GetByUsernameAsync(string username)
     {
         var users = await GetAllAsync();
 
@@ -55,7 +62,7 @@ public sealed class FileUserRepository : IUserRepository
                 StringComparison.OrdinalIgnoreCase));
     }
 
-    public async Task<List<User>> GetAllAsync()
+    public async Task<List<Domain.Users.User>> GetAllAsync()
     {
         var lines = await File.ReadAllLinesAsync(_filePath);
 
@@ -65,7 +72,7 @@ public sealed class FileUserRepository : IUserRepository
             .ToList();
     }
 
-    public async Task UpdateAsync(User user)
+    public async Task UpdateAsync(Domain.Users.User user)
     {
         var users = await GetAllAsync();
 
@@ -83,7 +90,7 @@ public sealed class FileUserRepository : IUserRepository
         await File.WriteAllLinesAsync(_filePath, lines);
     }
 
-    private string Serialize(User user)
+    private string Serialize(Domain.Users.User user)
     {
         return string.Join('|',
             user.Id,
@@ -96,7 +103,7 @@ public sealed class FileUserRepository : IUserRepository
             user.IsActive);
     }
 
-    private User Deserialize(string line)
+    private Domain.Users.User Deserialize(string line)
     {
         var parts = line.Split('|');
 
@@ -116,7 +123,7 @@ public sealed class FileUserRepository : IUserRepository
 
         var isActive = bool.Parse(parts[7]);
 
-        var user = new User(
+        var user = new Domain.Users.User(
             username,
             passwordHash,
             firstName,

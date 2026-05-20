@@ -1,15 +1,18 @@
 ﻿using DivarCodeChallenge.Application.Users.Services;
 using DivarCodeChallenge.Presentation.CLI;
-
-namespace DivarCodeChallenge.Presentation.Presentation.CLI;
+using DivarCodeChallenge.Presentation.Presentation.CLI;
 
 public class MainMenu
 {
     private readonly AuthenticationService _authService;
+    private readonly HomeMenu _homeMenu;
 
-    public MainMenu(AuthenticationService authService)
+    public MainMenu(
+        AuthenticationService authService,
+        HomeMenu homeMenu)
     {
         _authService = authService;
+        _homeMenu = homeMenu;
     }
 
     public async Task Run()
@@ -34,7 +37,14 @@ public class MainMenu
                     break;
 
                 case "2":
-                    await AuthMenu.Login(_authService);
+
+                    var userId = await AuthMenu.Login(_authService);
+
+                    if (userId != null)
+                    {
+                        await _homeMenu.Run(userId.Value);
+                    }
+
                     break;
 
                 case "0":

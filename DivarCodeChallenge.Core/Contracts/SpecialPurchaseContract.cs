@@ -1,33 +1,31 @@
-﻿using DivarCodeChallenge.Domain.Wallets;
+﻿using DivarCodeChallenge.Domain.Contracts;
+using DivarCodeChallenge.Domain.Wallets.ValueObjects;
+using System.Text.Json.Serialization;
 
-namespace DivarCodeChallenge.Domain.Contracts;
-
-public sealed class SpecialPurchaseContract : BuyContract
+public class SpecialPurchaseContract : Contract
 {
-    public int InstallmentMonths { get; private set; }
-
-    private SpecialPurchaseContract()
+    [JsonConstructor]
+    public SpecialPurchaseContract(
+        Guid id,
+        Guid houseId,
+        Guid ownerId,
+        Guid customerId,
+        DateTime contractDate,
+        Money amount,
+        string status,
+        string description)
+        : base(id, houseId, ownerId, customerId,
+               contractDate, amount, status, description)
     {
     }
 
     public SpecialPurchaseContract(
         Guid houseId,
         Guid ownerId,
-        Guid customerId,
-        Money housePrice,
-        int installmentMonths,
+        Guid buyerId,
+        Money price,
         string description)
-        : base(
-            houseId,
-            ownerId,
-            customerId,
-            housePrice,
-            description)
+        : base(houseId, ownerId, buyerId, price, description)
     {
-        if (installmentMonths <= 0)
-            throw new InvalidOperationException(
-                "Installment months must be greater than zero.");
-
-        InstallmentMonths = installmentMonths;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using DivarCodeChallenge.Application.Users.Interfaces;
 using DivarCodeChallenge.Domain.Users;
 using DivarCodeChallenge.Domain.Users.ValueObjects;
-using DivarCodeChallenge.Infrastructure.Security;
+using DivarCodeChallenge.Infrastructure.User.Security;
 
 namespace DivarCodeChallenge.Infrastructure.Seed;
 
@@ -19,7 +19,7 @@ public static class DataSeeder
         var hasher = new PasswordHasher();
         var passwordHash = hasher.Hash("NO_LOGIN");
 
-        var agency = new User(
+        var agency = new Domain.Users.User(
             username: "divar-agency",
             passwordHash: passwordHash,
             firstName: "Divar",

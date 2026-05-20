@@ -1,7 +1,7 @@
 ﻿using DivarCodeChallenge.Application.Users.DTOs;
 using DivarCodeChallenge.Application.Users.Services;
 
-namespace DivarCodeChallenge.Presentation.CLI;
+namespace DivarCodeChallenge.Presentation.Presentation.CLI;
 
 public static class AuthMenu
 {
@@ -12,22 +12,22 @@ public static class AuthMenu
         Console.WriteLine("=== Register ===");
 
         Console.Write("Username: ");
-        var username = Console.ReadLine()!;
+        var username = Console.ReadLine() ?? "";
 
         Console.Write("Password: ");
-        var password = Console.ReadLine()!;
+        var password = Console.ReadLine() ?? "";
 
         Console.Write("Confirm Password: ");
-        var confirmPassword = Console.ReadLine()!;
+        var confirmPassword = Console.ReadLine() ?? "";
 
         Console.Write("First Name: ");
-        var firstName = Console.ReadLine()!;
+        var firstName = Console.ReadLine() ?? "";
 
         Console.Write("Last Name: ");
-        var lastName = Console.ReadLine()!;
+        var lastName = Console.ReadLine() ?? "";
 
         Console.Write("National Code: ");
-        var nationalCode = Console.ReadLine()!;
+        var nationalCode = Console.ReadLine() ?? "";
 
         var request = new RegisterRequest
         {
@@ -43,27 +43,29 @@ public static class AuthMenu
         {
             await authService.RegisterAsync(request);
 
+            Console.WriteLine();
             Console.WriteLine("Registration successful.");
         }
         catch (Exception ex)
         {
+            Console.WriteLine();
             Console.WriteLine(ex.Message);
         }
 
         ConsoleHelper.Pause();
     }
 
-    public static async Task Login(AuthenticationService authService)
+    public static async Task<Guid?> Login(AuthenticationService authService)
     {
         Console.Clear();
 
         Console.WriteLine("=== Login ===");
 
         Console.Write("Username: ");
-        var username = Console.ReadLine()!;
+        var username = Console.ReadLine() ?? "";
 
         Console.Write("Password: ");
-        var password = Console.ReadLine()!;
+        var password = Console.ReadLine() ?? "";
 
         var request = new LoginRequest
         {
@@ -77,12 +79,19 @@ public static class AuthMenu
 
             Console.WriteLine();
             Console.WriteLine($"Welcome {user.FirstName}");
+
+            ConsoleHelper.Pause();
+
+            return user.Id;
         }
         catch (Exception ex)
         {
+            Console.WriteLine();
             Console.WriteLine(ex.Message);
-        }
 
-        ConsoleHelper.Pause();
+            ConsoleHelper.Pause();
+
+            return null;
+        }
     }
 }

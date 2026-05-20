@@ -2,7 +2,7 @@
 
 public abstract class BaseEntity
 {
-    public Guid Id { get; protected set; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public DateTime CreatedDate { get; protected set; } = DateTime.UtcNow;
     public Guid? CreatedByUser { get; protected set; }
